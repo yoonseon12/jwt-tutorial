@@ -2,6 +2,7 @@ package com.study.jwttutorial.config;
 
 import com.study.jwttutorial.jwt.JwtAccessDeniedHandler;
 import com.study.jwttutorial.jwt.JwtAuthenticationEntryPoint;
+import com.study.jwttutorial.jwt.JwtSecurityConfig;
 import com.study.jwttutorial.jwt.TokenProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -71,8 +72,12 @@ public class SecurityConfig{
                 .antMatchers("/api/authenticate").permitAll()
                 .antMatchers("/api/signup").permitAll()
 
-                .anyRequest().authenticated();
+                .anyRequest().authenticated()
+
+                .and()
+                .apply(new JwtSecurityConfig(tokenProvider));
 
         return httpSecurity.build();
     }
 }
+
